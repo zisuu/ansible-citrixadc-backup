@@ -1,0 +1,6 @@
+---
+# file ndcb-pb-citrix_adc.yaml
+- hosts: citrix_adc
+  gather_facts: false
+  roles:
+    - citrix_adc

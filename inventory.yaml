@@ -1,0 +1,10 @@
+---
+# yamllint disable rule:line-length
+
+all:
+  hosts:
+  children:
+    citrix_adc:
+      hosts:
+        netscaler01
+        netscaler02

@@ -1,0 +1,29 @@
+---
+# yamllint disable rule:line-length
+
+- name: Delete all old backups from local
+  delegate_to: localhost
+  file:
+    path: "{{ dest_path }}/{{ inventory_hostname }}"
+    state: absent
+
+- name: Generate new Citrix ADC system backup
+  delegate_to: localhost
+  command: ssh -o StrictHostKeyChecking=no -l backuper {{ inventory_hostname }} "create system backup -level full {{ backup_file }}"
+  register: command_result
+  failed_when: "'Resource already exists' in command_result.stdout"
+
+- name: Create new empty directory
+  delegate_to: localhost
+  file:
+    path: "{{ dest_path }}/{{ inventory_hostname }}"
+    state: directory
+    mode: '0755'
+
+- name: Download backup file from Citrix ADC to local folder
+  delegate_to: localhost
+  command: /bin/scp backuper@{{ inventory_hostname }}:/var/ns_sys_backup/{{ backup_file }}.tgz {{ dest_path }}/{{ inventory_hostname }}/{{ backup_file }}.tgz
+
+- name: delete backup from ADC
+  delegate_to: localhost
+  command: ssh -o StrictHostKeyChecking=no -l backuper {{ inventory_hostname }} "rm backup {{ backup_file }}.tgz"

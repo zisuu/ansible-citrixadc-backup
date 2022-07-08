@@ -1,0 +1,5 @@
+---
+# yamllint disable rule:line-length
+
+dest_path: "/var/git/ndcb-data"
+backup_file: "backup_full_{{ inventory_hostname }}_{{ lookup('pipe','date +%Y-%m-%d-%H') }}"
