@@ -1,0 +1,1 @@
+This playbook can be used to backup citrix adc's (also known as citrix netscaler).
