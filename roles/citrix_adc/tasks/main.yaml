@@ -9,7 +9,7 @@
 
 - name: Generate new Citrix ADC system backup
   delegate_to: localhost
-  command: ssh -o StrictHostKeyChecking=no -l backuper {{ inventory_hostname }} "create system backup -level full {{ backup_file }}"
+  command: ssh -l backuper {{ inventory_hostname }} "create system backup -level full {{ backup_file }}"
   register: command_result
   failed_when: "'Resource already exists' in command_result.stdout"
 
@@ -26,4 +26,4 @@
 
 - name: delete backup from ADC
   delegate_to: localhost
-  command: ssh -o StrictHostKeyChecking=no -l backuper {{ inventory_hostname }} "rm backup {{ backup_file }}.tgz"
+  command: ssh -l backuper {{ inventory_hostname }} "rm backup {{ backup_file }}.tgz"
